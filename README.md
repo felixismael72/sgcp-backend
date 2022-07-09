@@ -41,13 +41,17 @@ caso possua o container construído.
 
 ### Passo 4:
 
+Crie o seu arquivo .env nos padrões do .env.example dentro da pasta `/src`
+
+### Passo 5:
+
 Em seu terminal, dirija-se à parte do código fonte da aplicação, rodando:
 
 ```bash
 cd ../src
 ```
 
-### Passo 5:
+### Passo 6:
 
 Inicie o servidor da aplicação, rodando:
 
