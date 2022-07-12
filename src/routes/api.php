@@ -23,6 +23,12 @@ Route::get("/", function () {
     return phpinfo();
 });
 
-Route::get('/post/{slug}', [PostController::class, 'getBySlug']);
+Route::get('/post/{postID}', [PostController::class, 'getByID']);
 
 Route::get('/post', [PostController::class, 'get']);
+
+Route::post('/post/new', [PostController::class, 'post']);
+
+Route::put('/post/{postID}/edit', [PostController::class, 'put']);
+
+Route:: delete('/post/{postID}/remove', [PostController::class, 'delete']);
