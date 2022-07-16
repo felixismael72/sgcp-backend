@@ -11,6 +11,11 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    // rename the id column, not mandatory
+    protected $primaryKey = 'id';
+
+    // tell Eloquent that uuid is a string, not an integer
+    protected $keyType = 'string';
 
     /**
      * The attributes that are mass assignable.
