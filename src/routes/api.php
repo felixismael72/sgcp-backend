@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SpecialtyController;
+use App\Http\Controllers\AuthController;
 
 
 /*
@@ -25,6 +26,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get("/", function () {
     return phpinfo();
 });
+
+Route::post("/register", [AuthController::class, 'register']);
+Route::post("/login", [AuthController::class, 'login']);
 
 Route::get('/post/{postID}', [PostController::class, 'getByID']);
 Route::get('/post', [PostController::class, 'get']);
