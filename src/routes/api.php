@@ -6,6 +6,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\PsychologistMiddleware;
+use App\Http\Middleware\IfNotAuthenticatedMiddleware;
 
 
 /*
@@ -30,20 +32,26 @@ Route::get("/", function () {
 Route::post("/register", [AuthController::class, 'register']);
 Route::post("/login", [AuthController::class, 'login']);
 
+Route::middleware([PsychologistMiddleware::class])->group(function () {
+    Route::post('/post/new', [PostController::class, 'post']);
+    Route::put('/post/{postID}/edit', [PostController::class, 'put']);
+    Route::delete('/post/{postID}/remove', [PostController::class, 'delete']);
+    
+    Route::post('/schedule/new', [ScheduleController::class, 'post']); 
+    Route::put('/schedule/{scheduleID}/edit', [ScheduleController::class, 'put']);
+    Route::delete('/schedule/{scheduleID}/remove', [ScheduleController::class, 'delete']);
+
+    Route::get('/specialty/{specialtyID}', [SpecialtyController::class, 'getByID']);
+    Route::get('/specialty', [SpecialtyController::class, 'get']);
+    Route::post('/specialty/new', [SpecialtyController::class, 'post']); 
+    Route::put('/specialty/{specialtyID}/edit', [SpecialtyController::class, 'put']);
+    Route::delete('/specialty/{specialtyID}/remove', [SpecialtyController::class, 'delete']);
+});
+
+Route::middleware([IfNotAuthenticatedMiddleware::class])->group(function () {
+    Route::get('/schedule/{scheduleID}', [ScheduleController::class, 'getByID']);
+    Route::get('/schedule', [ScheduleController::class, 'get']);
+});
+
 Route::get('/post/{postID}', [PostController::class, 'getByID']);
 Route::get('/post', [PostController::class, 'get']);
-Route::post('/post/new', [PostController::class, 'post']);
-Route::put('/post/{postID}/edit', [PostController::class, 'put']);
-Route::delete('/post/{postID}/remove', [PostController::class, 'delete']);
-
-Route::get('/schedule/{scheduleID}', [ScheduleController::class, 'getByID']);
-Route::get('/schedule', [ScheduleController::class, 'get']);
-Route::post('/schedule/new', [ScheduleController::class, 'post']); 
-Route::put('/schedule/{scheduleID}/edit', [ScheduleController::class, 'put']);
-Route::delete('/schedule/{scheduleID}/remove', [ScheduleController::class, 'delete']);
-
-Route::get('/specialty/{specialtyID}', [SpecialtyController::class, 'getByID']);
-Route::get('/specialty', [SpecialtyController::class, 'get']);
-Route::post('/specialty/new', [SpecialtyController::class, 'post']); 
-Route::put('/specialty/{specialtyID}/edit', [SpecialtyController::class, 'put']);
-Route::delete('/specialty/{specialtyID}/remove', [SpecialtyController::class, 'delete']);

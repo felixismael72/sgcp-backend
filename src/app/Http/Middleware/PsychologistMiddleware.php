@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Auth;
-use App\Models\Role;
 
 class PsychologistMiddleware
 {
@@ -18,12 +17,11 @@ class PsychologistMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $role = Role::where('name', '=', 'Psychologist');
-        if (auth::check() && Auth::user()->role_id == $role->id) {
+        if (auth::check() && Auth::user()->role == 'psychologist') {
             return $next($request);
         }
         else {
-            return redirect()->route('login');
+            return response()->json(["message" => "O usuário não tem permissão para acessar este recurso."], 403);
         }
     }
 }

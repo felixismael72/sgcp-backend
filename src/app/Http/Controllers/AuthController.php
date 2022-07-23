@@ -35,12 +35,16 @@ class AuthController extends Controller
     }
 
     public function register(Request $request){
+        $request->validate([
+            'name' => 'required|string|name',
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
         $user = new User;
 
         $user->name = $request->name;
-        $user->username = $request->username;
         $user->email = $request->email;
-        $user->role_id = $request->role_id;
 
         $user->setPasswordAttribute($request->password);
 

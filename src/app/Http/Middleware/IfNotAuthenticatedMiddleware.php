@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\Role;
 
-class PatientMiddleware
+class IfNotAuthenticatedMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,9 +18,9 @@ class PatientMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth::check() && Auth::user()->role == 'patient') {
+        if (auth::check()) {
             return $next($request);
-        }
+        } 
         else {
             return response()->json(["message" => "O usuário não tem permissão para acessar este recurso."], 403);
         }
