@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRolesTable extends Migration
+class CreateAppointmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('appointments', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
-            $table->string('name');
+            $table->foreignUuid('patient_id')->references('id')->on('users');
+            $table->foreignUuid('schedule_id')->references('id')->on('schedules');
+            $table->boolean('is_canceled')->default(false);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('appointments');
     }
 }

@@ -17,7 +17,9 @@ class CreateSchedulesTable extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
             $table->dateTimeTz('schedule');
-            $table->boolean('expired');
+            $table->foreignUuid('psychologist_id')->references('id')->on('users');
+            $table->boolean('expired')->default(false);
+            $table->boolean('available')->default(true);
             $table->timestamps();
         });
     }

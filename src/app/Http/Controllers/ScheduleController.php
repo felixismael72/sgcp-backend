@@ -4,24 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Schedule;
+use Auth;
 
 class ScheduleController extends Controller
 {   
-    public function getByID($scheduleID)
+    public function fetchByID($scheduleID)
     {
         return  Schedule::where('id', '=', $scheduleID)->first();
     }
 
-    public function get()
+    public function fetchAll()
     {
-        return Schedule::all();
+        return Schedule::where('available', true)->get();
     }
 
-    public function post(Request $request) 
+    public function create(Request $request) 
     {
         $schedule = new Schedule;
 
         $schedule->schedule = $request->schedule;
+        $schedule->psychologist_id = Auth::user()->id;
         $schedule->expired = $request->expired;
 
         $schedule->save();
@@ -29,11 +31,12 @@ class ScheduleController extends Controller
         return response()->json(["id" => $schedule->id], 201);
     }
 
-    public function put(Request $request, $scheduleID) 
+    public function edit(Request $request, $scheduleID) 
     {
        $schedule = Schedule::find($scheduleID);
 
        $schedule->schedule = $request->schedule;
+       $schedule->psychologist_id = Auth::user()->id;
        $schedule->expired = $request->expired;
 
        $schedule->save();
@@ -41,7 +44,7 @@ class ScheduleController extends Controller
        return response()->json([], 204);
     }
 
-    public function delete($scheduleID) {
+    public function remove($scheduleID) {
         $schedule = Schedule::find($scheduleID);
 
         $schedule->delete();

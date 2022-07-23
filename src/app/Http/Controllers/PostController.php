@@ -7,17 +7,17 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-    public function getByID($postID)
+    public function fetchByID($postID)
     {
         return  Post::where('_id', '=', $postID)->first();
     }
 
-    public function get()
+    public function fetchAll()
     {
         return Post::all();
     }
 
-    public function post(Request $request) 
+    public function create(Request $request) 
     {
         $post = new Post;
 
@@ -30,7 +30,7 @@ class PostController extends Controller
         return response()->json(["id" => $post->id], 201);
     }
 
-    public function put(Request $request, $postID) 
+    public function edit(Request $request, $postID) 
     {
        $post = Post::find($postID);
        $post->title = $request->title;
@@ -41,7 +41,7 @@ class PostController extends Controller
        return response()->json([], 204);
     }
 
-    public function delete($postID) {
+    public function remove($postID) {
         $post = Post::find($postID);
 
         $post->delete();
