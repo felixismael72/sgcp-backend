@@ -56,4 +56,7 @@ Route::middleware([IfNotAuthenticatedMiddleware::class])->group(function () {
     Route::get('/appointment/{appointmentID}', [AppointmentController::class, 'fetchByID']);
     Route::patch('/appointment/{appointmentID}/cancel', [AppointmentController::class, 'cancel']);
     Route::delete('/appointment/{appointmentID}/remove', [AppointmentController::class, 'remove']);
+
+    Route::get('/refresh', [AuthController::class], 'refresh');
+    Route::patch('/logout', [AuthController::class], 'logout');
 });
