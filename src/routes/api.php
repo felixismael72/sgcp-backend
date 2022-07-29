@@ -9,7 +9,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\PsychologistMiddleware;
 use App\Http\Middleware\PatientMiddleware;
-use App\Http\Middleware\IfNotAuthenticatedMiddleware;
+use App\Http\Middleware\AuthenticatedMiddleware;
 
 
 /*
@@ -48,7 +48,7 @@ Route::middleware([PatientMiddleware::class])->group(function () {
     Route::put('/appointment/{appointmentID}/edit', [AppointmentController::class, 'edit']);
 });
 
-Route::middleware([IfNotAuthenticatedMiddleware::class])->group(function () {
+Route::middleware([AuthenticatedMiddleware::class])->group(function () {
     Route::get('/schedule/{scheduleID}', [ScheduleController::class, 'fetchByID']);
     Route::get('/schedule', [ScheduleController::class, 'fetchAll']);
     
@@ -57,6 +57,6 @@ Route::middleware([IfNotAuthenticatedMiddleware::class])->group(function () {
     Route::patch('/appointment/{appointmentID}/cancel', [AppointmentController::class, 'cancel']);
     Route::delete('/appointment/{appointmentID}/remove', [AppointmentController::class, 'remove']);
 
-    Route::get('/refresh', [AuthController::class], 'refresh');
-    Route::patch('/logout', [AuthController::class], 'logout');
+    Route::get('/refresh', [AuthController::class, 'refresh']);
+    Route::patch('/logout', [AuthController::class, 'logout']);
 });

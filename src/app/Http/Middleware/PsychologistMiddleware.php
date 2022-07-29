@@ -17,7 +17,7 @@ class PsychologistMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth::check() && Auth::user()->role == 'psychologist') {
+        if (Auth::check() && Auth::user()->role == 'psychologist') {
             return $next($request);
         }
         else {

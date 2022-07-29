@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Auth;
-use App\Models\Role;
 
-class IfNotAuthenticatedMiddleware
+class AuthenticatedMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,7 +17,7 @@ class IfNotAuthenticatedMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth::check()) {
+        if (Auth::check()) {
             return $next($request);
         } 
         else {

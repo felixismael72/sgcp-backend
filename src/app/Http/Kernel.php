@@ -5,7 +5,7 @@ namespace App\Http;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Http\Middleware\PsychologistMiddleware;
 use App\Http\Middleware\PatientMiddleware;
-use App\Http\Middleware\IfNotAuthenticatedMiddleware;
+use App\Http\Middleware\AuthenticatedMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -66,8 +66,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'patient' => PatientMiddleware::class,
-        'psychologist' => PsychologistMiddleware::class,
-        'ifNotAuthenticated' => IfNotAuthenticatedMiddleware::class,
+        'patient' => \App\Http\Middleware\PatientMiddleware::class,
+        'psychologist' => \App\Http\Middleware\PsychologistMiddleware::class,
+        'authenticated' => \App\Http\Middleware\AuthenticatedMiddleware::class,
     ];
 }
