@@ -43,7 +43,7 @@ class AppointmentController extends Controller
 
     public function fetchByPatientID() 
     {
-        return Appointment::where('patient_id', '=', Auth::user()->id)->get();
+        return Appointment::where([['patient_id', '=', Auth::user()->id], ['is_canceled', false]])->get();
     }
 
     public function edit(Request $request, $appointmentID) 
