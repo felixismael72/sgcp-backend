@@ -14,6 +14,7 @@ class AppointmentController extends Controller
         $appointment = new Appointment;
 
         $appointment->patient_id = Auth::user()->id;
+        $appointment->patient_name = Auth::user()->name;
         $appointment->schedule_id = $request->schedule_id;
 
         $appointment->save();
@@ -37,11 +38,17 @@ class AppointmentController extends Controller
         return Appointment::where('id', '=', $appointmentID)->first();
     }
 
+    public function fetchByPatientID() 
+    {
+        return Appointment::where('patient_id', '=', Auth::user()->id);
+    }
+
     public function edit(Request $request, $appointmentID) 
     {
         $appointment = Appointment::find($appointmentID);
 
         $appointment->patient_id = Auth::user()->id;
+        $appointment->patient_name = Auth::user()->name;
 
         if ($appointment->schedule_id != $request->schedule_id) {
             $antiqueSchedule = Schedule::find($appointment->schedule_id);

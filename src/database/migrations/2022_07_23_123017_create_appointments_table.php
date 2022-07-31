@@ -16,6 +16,7 @@ class CreateAppointmentsTable extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
             $table->foreignUuid('patient_id')->references('id')->on('users');
+            $table->string('patient_name');
             $table->foreignUuid('schedule_id')->references('id')->on('schedules');
             $table->boolean('is_canceled')->default(false);
             $table->timestamps();

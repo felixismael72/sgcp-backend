@@ -45,6 +45,7 @@ Route::middleware([PsychologistMiddleware::class])->group(function () {
 
 Route::middleware([PatientMiddleware::class])->group(function () {
     Route::post('/appointment/new', [AppointmentController::class, 'create']);
+    Route::get('/appointment/mine', [AppointmentController::class, 'fetchByPatientID']);
     Route::put('/appointment/{appointmentID}/edit', [AppointmentController::class, 'edit']);
 });
 
