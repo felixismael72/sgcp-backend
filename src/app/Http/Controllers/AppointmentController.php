@@ -16,10 +16,13 @@ class AppointmentController extends Controller
         $appointment->patient_id = Auth::user()->id;
         $appointment->patient_name = Auth::user()->name;
         $appointment->schedule_id = $request->schedule_id;
+        
+        $schedule = Schedule::find($appointment->schedule_id);
 
+        $appointment->schedule = $schedule->schedule;
+        
         $appointment->save();
 
-        $schedule = Schedule::find($appointment->schedule_id);
 
         $schedule->available = false;
 

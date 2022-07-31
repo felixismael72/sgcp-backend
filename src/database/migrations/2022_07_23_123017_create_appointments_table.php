@@ -18,6 +18,7 @@ class CreateAppointmentsTable extends Migration
             $table->foreignUuid('patient_id')->references('id')->on('users');
             $table->string('patient_name');
             $table->foreignUuid('schedule_id')->references('id')->on('schedules');
+            $table->string('schedule');
             $table->boolean('is_canceled')->default(false);
             $table->timestamps();
         });
