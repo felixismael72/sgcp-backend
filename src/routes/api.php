@@ -41,6 +41,8 @@ Route::middleware([PsychologistMiddleware::class])->group(function () {
     Route::post('/schedule/new', [ScheduleController::class, 'create']); 
     Route::put('/schedule/{scheduleID}/edit', [ScheduleController::class, 'edit']);
     Route::delete('/schedule/{scheduleID}/remove', [ScheduleController::class, 'remove']);
+
+    Route::patch('/appointment/{appointmentID}/finish', [AppointmentController::class, 'markAsDone']);
 });
 
 Route::middleware([PatientMiddleware::class])->group(function () {
@@ -53,7 +55,9 @@ Route::middleware([AuthenticatedMiddleware::class])->group(function () {
     Route::get('/schedule/{scheduleID}', [ScheduleController::class, 'fetchByID']);
     Route::get('/schedule', [ScheduleController::class, 'fetchAll']);
     
-    Route::get('/appointment', [AppointmentController::class, 'fetchAll']);
+    Route::get('/appointment', [AppointmentController::class, 'fetchAllActive']);
+    Route::get('/appointment/finished', [AppointmentController::class, 'fetchAllFinished']);
+    Route::get('/appointment/inactive', [AppointmentController::class, 'fetchAllInactive']);
     Route::get('/appointment/{appointmentID}', [AppointmentController::class, 'fetchByID']);
     Route::patch('/appointment/{appointmentID}/cancel', [AppointmentController::class, 'cancel']);
     Route::delete('/appointment/{appointmentID}/remove', [AppointmentController::class, 'remove']);

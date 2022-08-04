@@ -31,9 +31,19 @@ class AppointmentController extends Controller
         return response()->json(["id" => $appointment->id], 201);
     }
 
-    public function fetchAll() 
+    public function fetchAllActive() 
     {
-        return Appointment::where('is_canceled', false)->get();
+        return Appointment::where([['is_canceled', false], ['is_done', false]])->get();
+    }
+
+    public function fetchAllFinished()
+    {
+        return Appointment::where('is_done', true)->get();
+    }
+
+    public function fetchAllInactive()
+    {
+        return Appointment::where('is_canceled', true)->get();
     }
 
     public function fetchByID($appointmentID) 
@@ -43,7 +53,7 @@ class AppointmentController extends Controller
 
     public function fetchByPatientID() 
     {
-        return Appointment::where([['patient_id', '=', Auth::user()->id], ['is_canceled', false]])->get();
+        return Appointment::where([['patient_id', '=', Auth::user()->id], ['is_done', false]])->get();
     }
 
     public function edit(Request $request, $appointmentID) 
@@ -86,6 +96,17 @@ class AppointmentController extends Controller
         $schedule->available = true;
 
         $schedule->save();
+
+        return response()->json([], 204);
+    }
+
+    public function markAsDone($appointmentID) 
+    {
+        $appointment = Appointment::find($appointmentID);
+
+        $appointment->is_done = true;
+
+        $appointment->save();
 
         return response()->json([], 204);
     }
